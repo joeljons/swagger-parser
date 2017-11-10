@@ -1,0 +1,4 @@
+definitions:
+  CustomerType:
+    type: string
+    example: NoQuotePlease

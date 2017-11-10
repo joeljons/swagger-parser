@@ -18,7 +18,9 @@ import mockit.StrictExpectations;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.testng.Assert.*;
 
 public class SwaggerResolverTest {
@@ -395,5 +397,15 @@ public class SwaggerResolverTest {
         Swagger swagger = new SwaggerParser().read("./relative-file-references/yaml/issue-5753.yaml");
 
         Json.prettyPrint(swagger);
+    }
+
+    @Test
+    public void externalReferredExampleGetsEscaped() throws Exception {
+        SwaggerParser parser = new SwaggerParser();
+        final Swagger swagger = parser.read("src/test/resources/resolve-escape/a.yaml");
+
+        System.out.println("Json.pretty(swagger) = " + Json.pretty(swagger));
+        Map<String, Model> definitions = swagger.getDefinitions();
+        assertEquals("NoQuotePlease", definitions.get("CustomerType").getExample());
     }
 }
